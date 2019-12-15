@@ -1,0 +1,13 @@
+raw_data <- read.csv("household_power_consumption.txt",sep=';')
+raw_data$Date <- as.character(raw_data$Date)
+filtered_data <- raw_data[raw_data$Date == "1/2/2007" | raw_data$Date == "2/2/2007",]
+filtered_data$Sub_metering_1 <- as.numeric(as.character(filtered_data$Sub_metering_1))
+filtered_data$Sub_metering_2 <- as.numeric(as.character(filtered_data$Sub_metering_2))
+filtered_data$Sub_metering_3 <- as.numeric(as.character(filtered_data$Sub_metering_3))
+plot_time <- strptime(paste0(filtered_data$Date,filtered_data$Time),"%d/%m/%Y %H:%M:%S")
+png(filename = "plot3.png", width = 480, height = 480)
+plot(plot_time,filtered_data$Sub_metering_1, ylab = "Energy sub metering", xlab = "", type = "l", col="gray")
+lines(plot_time,filtered_data$Sub_metering_2, ylab = "Energy sub metering", xlab = "", type = "l", col="red")
+lines(plot_time,filtered_data$Sub_metering_3, ylab = "Energy sub metering", xlab = "", type = "l", col="blue")
+legend("topright",legend = c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), col = c("gray","red","blue"), lty = 1, cex = 0.75)
+dev.off()
